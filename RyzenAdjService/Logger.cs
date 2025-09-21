@@ -28,7 +28,7 @@ namespace RyzenAdjService
         /// <returns>Formatted timestamp string</returns>
         private static string GetTimestampPrefix()
         {
-            return DateTime.Now.ToString("[dd/MM/yyyy HH:mm]");
+            return DateTime.Now.ToString("[dd/MM/yyyy HH:mm:ss]");
         }
     }
 }
