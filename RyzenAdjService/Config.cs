@@ -19,9 +19,9 @@ namespace RyzenAdjService
 
     public static void AdjustRyzen(PowerState powerState)
     {
-      AdjustField.Adjust("stapm_limit", 28000, FieldMonitorStates);
-      AdjustField.Adjust("fast_limit", 28000, FieldMonitorStates);
-      AdjustField.Adjust("slow_limit", 28000, FieldMonitorStates);
+      AdjustField.Adjust("stapm_limit", 33000, FieldMonitorStates);
+      AdjustField.Adjust("slow_limit", 33000, FieldMonitorStates);
+      AdjustField.Adjust("fast_limit", 33000, FieldMonitorStates);
     }
   }
 }

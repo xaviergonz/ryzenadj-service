@@ -1,16 +1,22 @@
 using System;
+using System.IO;
 
 namespace RyzenAdjService
 {
     public static class Logger
     {
+        private static readonly string LogFilePath = Path.Combine(Directory.GetCurrentDirectory(), "RyzenAdjService.log");
+        private static readonly object LockObject = new object();
+
         /// <summary>
         /// Writes a message to the console with a timestamp prefix.
         /// </summary>
         /// <param name="message">The message to log</param>
         public static void WriteLine(string message)
         {
-            Console.WriteLine($"{GetTimestampPrefix()} {message}");
+            string formattedMessage = $"{GetTimestampPrefix()} {message}";
+            Console.WriteLine(formattedMessage);
+            WriteToFile(formattedMessage);
         }
 
         /// <summary>
@@ -19,7 +25,28 @@ namespace RyzenAdjService
         /// <param name="message">The error message to log</param>
         public static void WriteError(string message)
         {
-            Console.Error.WriteLine($"{GetTimestampPrefix()} {message}");
+            string formattedMessage = $"{GetTimestampPrefix()} {message}";
+            Console.Error.WriteLine(formattedMessage);
+            WriteToFile(formattedMessage);
+        }
+
+        /// <summary>
+        /// Writes a message to the log file.
+        /// </summary>
+        /// <param name="message">The message to write to the file</param>
+        private static void WriteToFile(string message)
+        {
+            try
+            {
+                lock (LockObject)
+                {
+                    File.AppendAllText(LogFilePath, message + Environment.NewLine);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Failed to write to log file: {ex.Message}");
+            }
         }
 
         /// <summary>
